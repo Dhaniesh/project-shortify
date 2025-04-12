@@ -15,11 +15,10 @@ r = redis.Redis(host=redis_host, port=redis_port)
 
 def get_hash(long_url):
     salt = uuid.uuid4()
-    hash_object = hashlib.sha256( (long_url + str(salt)).encode())
+    hash_object = hashlib.sha256((long_url + str(salt)).encode())
     short_code = hash_object.hexdigest()[:8]
     return short_code
 
-    
 
 try:
     r.ping()
@@ -36,15 +35,17 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ['*'],
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
-                   )
+)
+
 
 @app.get('/')
 def get_root():
     return FileResponse("static/index.html")
+
 
 @app.get('/{short_url}')
 def get_root(short_url):
@@ -55,10 +56,9 @@ def get_root(short_url):
     else:
         return "no urls found"
 
+
 @app.post('/shortern')
-def shortern_url(long_url: Annotated[str, Form()], request:Request):
+def shortern_url(long_url: Annotated[str, Form()], request: Request):
     short_code = get_hash(long_url)
     r.set(short_code, long_url)
     return f'{request.base_url}{short_code}'
-
-
