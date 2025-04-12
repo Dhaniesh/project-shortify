@@ -1,4 +1,4 @@
-# Project Shortify
+# Project Shortify (https://shortify-api-99y4.onrender.com/)
 
 An URL shortener application built with **FastAPI** and **Redis** for faster lookups. This project allows users to shorten long URLs into compact, shareable links and redirect them back to the original URLs.
 
