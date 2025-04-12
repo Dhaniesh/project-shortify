@@ -40,7 +40,7 @@
 
             const formData = new FormData(form);
 
-            fetch("http://localhost:8000/shortern", {
+            fetch(`${window.location.origin}shortern`, {
                 method: "POST",
                 body: formData,
             })
