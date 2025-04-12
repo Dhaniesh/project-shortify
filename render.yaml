@@ -12,8 +12,6 @@ services:
           name: shortify-redis
       - key: REDIS_PORT
         value: 6379
-    ports:
-      - 8000
 
   - type: redis
     name: shortify-redis
