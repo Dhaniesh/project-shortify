@@ -3,6 +3,7 @@ pipeline {
         docker {
             image 'python:3.10-slim'
             args '-p 8000:8000'
+            workingDir 'C:/ProgramData/Jenkins/.jenkins/workspace/build-shorify/'
         }
     }
 
