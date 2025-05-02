@@ -2,23 +2,30 @@ pipeline {
     agent {
         docker {
             image 'python:3.10-slim'
-            args '-v /c/ProgramData/Jenkins/.jenkins/workspace/build-shorify/ -w /app -p 8000:8000'
+            args '-p 8000:8000'
         }
     }
 
     environment {
-        APP_DIR = '/app'
+        APP_DIR = 'app'
     }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Install Redis') {
             steps {
                 sh '''
-                    apt-get update && \
-                    apt-get install -y redis-server curl && \
-                    pip install --upgrade pip && \
-                    pip install -r ${APP_DIR}/requirements.txt
+                    apt-get update
+                    apt-get install -y redis-server curl
                 '''
+            }
+        }
+
+        stage('Install Python Dependencies') {
+            steps {
+                dir("${APP_DIR}") {
+                    sh 'pip install --upgrade pip'
+                    sh 'pip install -r requirements.txt'
+                }
             }
         }
 
@@ -34,8 +41,10 @@ pipeline {
 
         stage('Run FastAPI') {
             steps {
-                sh 'uvicorn ${APP_DIR}/main:app --host 0.0.0.0 --port 8000 --reload &'
-                sh 'sleep 5'
+                dir("${APP_DIR}") {
+                    sh 'uvicorn main:app --host 0.0.0.0 --port 8000 --reload &'
+                    sh 'sleep 5'
+                }
             }
         }
 
