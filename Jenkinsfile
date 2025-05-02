@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'python:3.10-slim'
-            args '-v /c/ProgramData/Jenkins/.jenkins/workspace/build-shorify:/app -w /app -p 8000:8000'
+            args '-v /c/ProgramData/Jenkins/.jenkins/workspace/build-shorify/ -w /app -p 8000:8000'
         }
     }
 
