@@ -1,9 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'python:3.10-slim'
-            args '-p 8000:8000'
-            customWorkspace 'C:/ProgramData/Jenkins/.jenkins/workspace/build-shorify/'
+            filename 'Dockerfile'
+            dir 'app'
         }
     }
 
