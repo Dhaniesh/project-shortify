@@ -2,18 +2,21 @@ pipeline {
     agent {
         docker {
             image 'python:3.10-slim'
-            args '-p 8000:8000'
         }
     }
 
-    environment {
-        APP_DIR = 'app'
-    }
-
     stages {
-        stage('test run') {
+        stage('Clone Repo') {
             steps {
-                sh 'python --version'
+                git 'https://github.com/Dhaniesh/project-shortify.git'
+            }
+        }
+
+        stage('Install Deps & Lint') {
+            steps {
+                sh '''
+                    pip install -r requirements.txt
+                '''
             }
         
         }
