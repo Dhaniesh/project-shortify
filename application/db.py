@@ -8,7 +8,10 @@ redis_port = os.environ.get("REDIS_PORT", 6379)
 
 try:
     # Initialize Redis connection
-    r = redis.Redis(host=redis_host, port=int(redis_port), decode_responses=True)
+    r = redis.Redis(host=redis_host,
+                    port=int(redis_port),
+                    decode_responses=True
+                    )
     # Test the connection
     r.ping()
 except (RedisError, ValueError) as e:

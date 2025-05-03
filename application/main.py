@@ -20,10 +20,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def get_root():
     """Serve the main HTML page."""
     return FileResponse("static/index.html")
+
 
 @app.get("/{short_url}")
 def redirect_to_long_url(short_url: str):
@@ -32,6 +34,7 @@ def redirect_to_long_url(short_url: str):
     if long_url:
         return RedirectResponse(long_url)
     raise HTTPException(status_code=404, detail="URL not found")
+
 
 @app.post("/shorten")
 def shorten_url(long_url: Annotated[str, Form()], request: Request):
