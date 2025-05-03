@@ -7,11 +7,19 @@ pipeline {
     }
 
     stages {
-        stage('Install Deps & Lint') {
+        stage('Install Dependencies') {
             steps {
                 sh '''
                     python -m pip install --upgrade pip
                     pip install -r requirements.txt
+                '''
+            }
+        
+        }
+
+        stage('Linter') {
+            steps {
+                sh '''
                     flake8 application
                 '''
             }
