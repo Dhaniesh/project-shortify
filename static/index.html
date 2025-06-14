@@ -61,14 +61,21 @@
       const form = document.getElementById("itemForm");
       const resultDiv = document.getElementById("result");
 
-      form.addEventListener("submit", (event) => {
+      form.addEventListener("submit", async (event) => {
         event.preventDefault();
+
+      const ipResponse = await fetch("https://api.ipify.org?format=json");
+      const ipData = await ipResponse.json();
+      const clientIp = ipData.ip;
 
         const formData = new FormData(form);
 
         fetch(`${window.location.origin}/shorten`, {
           method: "POST",
-          body: formData,
+          headers: {
+            "X-Client-IP": clientIp
+          },
+          body: formData
         })
           .then((response) => {
             if (!response.ok) {
